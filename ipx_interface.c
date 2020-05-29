@@ -76,7 +76,7 @@ ipx_add_interface(int argc, char **argv)
 	unsigned long	netnum;
 	char	errmsg[80];
 	int	i, fti = 0;
-	char	c;
+	int	c;
 
 	sipx->sipx_special = IPX_SPECIAL_NONE;
 	sipx->sipx_network = 0L;
