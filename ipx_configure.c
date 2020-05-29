@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <getopt.h>
+#include <stdlib.h>
 #include <strings.h>
 #include <netipx/ipx.h>
 #include <sys/types.h>

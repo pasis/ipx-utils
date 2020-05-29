@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 #include <netinet/in.h>
 #include <netipx/ipx.h>
 #include <linux/if.h>
@@ -191,7 +191,9 @@ ipx_delall_interface(int argc, char **argv)
 		exit(-1);
 	}
 
-	fp = fopen("/proc/net/ipx_interface", "r");
+	fp = fopen("/proc/net/ipx/interface", "r");
+	if (fp == NULL)
+		fp = fopen("/proc/net/ipx_interface", "r");
 	if (fp == NULL) {
 		fprintf(stderr, 
 			"%s: Unable to open \"/proc/net/ipx_interface.\"\n",

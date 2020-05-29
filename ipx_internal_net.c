@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <errno.h>
-#include <strings.h>
+#include <string.h>
 #include <netinet/in.h>
 #include <netipx/ipx.h>
 #include <linux/if.h>
