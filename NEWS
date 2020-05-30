@@ -1,0 +1,8 @@
+29 May 2020
+-----------
+
+ipx-utils continues development of usersapce IPX utilities for Linux. Since
+sunsite.unc.edu is not available anymore, latest version of the utilities can
+be downloaded at https://github.com/pasis/ipx-utils. Also, IPX support was
+removed in Linux 4.18 and for newer kernels you will need external ipx module
+which can be downloaded at https://github.com/pasis/ipx.

@@ -1,0 +1,7 @@
+1.2
+	- ipx_interface: fixed type mismatch error which leads to infinite
+	  loop on arm64 board
+	- Updated paths to procfs files (patch from Gentoo)
+
+1.1
+	- Original ipx-1.1 package downloaded from a Gentoo distfiles mirror
