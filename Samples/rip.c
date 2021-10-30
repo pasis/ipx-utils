@@ -1,16 +1,18 @@
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
-#include <linux/ipx.h>
+#include <netipx/ipx.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <errno.h>
 
 struct rip_data {
-	unsigned long	rip_net;
-	unsigned short	rip_hops __attribute__ ((packed));
-	unsigned short	rip_ticks __attribute__ ((packed));
-};
-	
+	uint32_t rip_net;
+	uint16_t rip_hops;
+	uint16_t rip_ticks;
+} __attribute__ ((packed));
+
 int
 main(int argc, char **argv)
 {
@@ -47,7 +49,7 @@ main(int argc, char **argv)
 		}
 		bptr = msg;
 		result -= 2;
-		printf("RIP packet from: %08lX:%02X%02X%02X%02X%02X%02X\n",
+		printf("RIP packet from: %08X:%02X%02X%02X%02X%02X%02X\n",
 			htonl(sipx.sipx_network),
 			sipx.sipx_node[0], sipx.sipx_node[1],
 			sipx.sipx_node[2], sipx.sipx_node[3],
@@ -55,14 +57,10 @@ main(int argc, char **argv)
 		bptr += 2;
 		rp = (struct rip_data *) bptr;
 		while (result >= sizeof(struct rip_data)) {
-			printf("\tNET: %08lX HOPS: %d\n", ntohl(rp->rip_net),
+			printf("\tNET: %08X HOPS: %d\n", ntohl(rp->rip_net),
 				ntohs(rp->rip_hops));
 			result -= sizeof(struct rip_data);
 			rp++;
 		}
 	}
 }
-		
-
-	
-

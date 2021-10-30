@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <linux/ipx.h>
+#include <netipx/ipx.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <errno.h>

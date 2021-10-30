@@ -1,20 +1,22 @@
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
-#include <linux/ipx.h>
+#include <netipx/ipx.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <errno.h>
 
 
 struct sap_data {
-	unsigned short	sap_type __attribute__ ((packed));
-	char	sap_name[48] __attribute__ ((packed));
-	unsigned long	sap_net __attribute__ ((packed));
-	unsigned char	sap_node[6] __attribute__ ((packed));
-	unsigned short	sap_sock __attribute__ ((packed));
-	unsigned short	sap_hops __attribute__ ((packed));
-};
-	
+	uint16_t sap_type;
+	char     sap_name[48];
+	uint32_t sap_net;
+	uint8_t  sap_node[6];
+	uint16_t sap_sock;
+	uint16_t sap_hops;
+} __attribute__ ((packed));
+
 int
 main(int argc, char **argv)
 {
@@ -76,7 +78,7 @@ main(int argc, char **argv)
 			sp->sap_name[i] = '\0';
 			printf("NAME: %s TYPE: %x HOPS: %x\n", sp->sap_name,
 				ntohs(sp->sap_type), ntohs(sp->sap_hops));
-			printf("%lx:%x %x %x %x %x %x: %x\n", 
+			printf("%x:%x %x %x %x %x %x: %x\n",
 				ntohl(sp->sap_net),
 				sp->sap_node[0],
 				sp->sap_node[1],
@@ -90,7 +92,3 @@ main(int argc, char **argv)
 		}
 	}
 }
-		
-
-	
-
