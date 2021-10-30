@@ -144,7 +144,8 @@ ipx_del_internal_net(int argc, char **argv)
 	int	s;
 	int	result;
 	char	errmsg[80];
-	
+
+	(void)argv;
 	if (argc != 1) {
 		usage();
 	}

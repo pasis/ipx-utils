@@ -47,7 +47,7 @@ struct frame_type {
 int
 lookup_frame_type(char *frame)
 {
-	int	j;
+	size_t	j;
 
 	for (j = 0; (j < NFTYPES) && 
 		(strcasecmp(frame_types[j].ft_name, frame)); 
@@ -172,7 +172,7 @@ ipx_add_interface(int argc, char **argv)
 }
 
 int
-ipx_delall_interface(int argc, char **argv)
+ipx_delall_interface(void)
 {
 	struct sockaddr_ipx	*sipx = (struct sockaddr_ipx *)&id.ifr_addr;
 	int	s;
@@ -183,6 +183,7 @@ ipx_delall_interface(int argc, char **argv)
 	char	frame_type[20];
 	int	fti;
 	FILE	*fp;
+	char	*ret;
 
 	s = socket(AF_IPX, SOCK_DGRAM, AF_IPX);
 	if (s < 0) {
@@ -195,13 +196,19 @@ ipx_delall_interface(int argc, char **argv)
 	if (fp == NULL)
 		fp = fopen("/proc/net/ipx_interface", "r");
 	if (fp == NULL) {
-		fprintf(stderr, 
+		fprintf(stderr,
 			"%s: Unable to open \"/proc/net/ipx_interface.\"\n",
 			progname);
 		exit(-1);
 	}
 	
-	fgets(buffer, 80, fp);
+	ret = fgets(buffer, 80, fp);
+	if (ret == NULL) {
+		fprintf(stderr,
+			"%s: Unable to read \"/proc/net/ipx_interface.\"\n",
+			progname);
+		exit(-1);
+	}
 	while (fscanf(fp, "%s %s %s %s %s", buffer, buffer, buffer,
 			device, frame_type) == 5) {
 
@@ -372,9 +379,11 @@ main(int argc, char **argv)
 			argv[i] = argv[i+1];
 		ipx_add_interface(argc-1, argv);
 	} else if (strncasecmp(argv[1], "delall", 6) == 0) {
-		for (i = 1; i < (argc-1); i++) 
-			argv[i] = argv[i+1];
-		ipx_delall_interface(argc-1, argv);
+		if (argc > 2) {
+			usage();
+			exit(-1);
+		}
+		ipx_delall_interface();
 	} else if (strncasecmp(argv[1], "del", 3) == 0) {
 		for (i = 1; i < (argc-1); i++) 
 			argv[i] = argv[i+1];
